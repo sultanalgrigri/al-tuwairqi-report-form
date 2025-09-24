@@ -8,7 +8,7 @@
             font-family: 'Arial', sans-serif;
             direction: rtl;
             background-color: #f0f2f5;
-            font-size: 14px;
+            font-size: 16px; /* Updated font size to 16px */
         }
         .container {
             max-width: 900px;
@@ -17,8 +17,10 @@
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding-left: 1cm; /* 1cm left margin */
+            padding-right: 1cm; /* 1cm right margin */
         }
-        /* تصميم الكليشة */
+        /* Top header image/klicheh */
         .header-klicheh {
             width: 100%;
             height: auto;
@@ -61,6 +63,7 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             box-sizing: border-box;
+            text-align: center; /* Centered text alignment */
         }
         textarea {
             height: 100px;
@@ -92,7 +95,7 @@
         .btn:hover {
             opacity: 0.9;
         }
-        /* تصميم الصور المرفقة */
+        /* Image previews */
         .image-preview-container {
             display: flex;
             flex-wrap: wrap;
@@ -157,7 +160,7 @@
 
         <div class="buttons-container">
             <button class="btn download" onclick="generatePDF()">تنزيل التقرير</button>
-            <button class="btn clear">حذف البيانات</button>
+            <button class="btn clear" onclick="clearData()">حذف البيانات</button>
         </div>
     </div>
 
@@ -210,6 +213,15 @@
 
                 downloadButton.style.display = 'block';
             });
+        }
+        
+        function clearData() {
+            const inputs = document.querySelectorAll('input[type="text"], textarea');
+            inputs.forEach(input => {
+                input.value = '';
+            });
+            document.getElementById('image-upload').value = '';
+            document.getElementById('image-preview-container').innerHTML = '';
         }
     </script>
 </body>
