@@ -18,6 +18,12 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
         }
+        /* تصميم الكليشة */
+        .header-klicheh {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
         .header {
             text-align: center;
             margin-bottom: 25px;
@@ -26,11 +32,6 @@
             color: #004d99;
             font-size: 28px;
             margin: 0;
-        }
-        .header h2 {
-            color: #555;
-            font-size: 20px;
-            margin-top: 5px;
         }
         .form-grid {
             display: grid;
@@ -90,11 +91,19 @@
         .btn:hover {
             opacity: 0.9;
         }
-        .footer-info {
-            text-align: center;
-            margin-top: 40px;
-            color: #666;
-            font-size: 12px;
+        /* تصميم الصور المرفقة */
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .image-preview-container img {
+            width: 4.5cm;
+            height: 4.5cm;
+            object-fit: cover;
+            border: 1px solid #ddd;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -102,9 +111,10 @@
 </head>
 <body>
     <div class="container" id="report-container">
+        <img class="header-klicheh" src="ليبيبييبيب.jpg" alt="كليشة التقرير">
+
         <div class="header">
             <h1>برامج الأنشطة الطلابية</h1>
-            <h2>مجال المواطنة والحياة</h2>
         </div>
 
         <div class="form-grid">
@@ -132,8 +142,12 @@
         </div>
 
         <div class="form-grid two-cols">
-            <div class="form-field"><label>الشواهد</label><input type="file" multiple></div>
+            <div class="form-field">
+                <label>الشواهد</label>
+                <input type="file" id="image-upload" accept="image/*" multiple>
+            </div>
         </div>
+        <div class="image-preview-container" id="image-preview-container"></div>
 
         <div class="form-grid">
             <div class="form-field"><label>رائد النشاط</label><input type="text"></div>
@@ -144,16 +158,28 @@
             <button class="btn download" onclick="generatePDF()">تنزيل التقرير</button>
             <button class="btn clear">حذف البيانات</button>
         </div>
-
-        <div class="footer-info">
-            <p>جميع حقوق العمل محفوظة</p>
-            <p>للمستشار: ماجد الطويرقي</p>
-            <p>تصميم وتطوير: ماجد الطويرقي</p>
-            <p>جميع الحقوق محفوظة ©</p>
-        </div>
     </div>
 
     <script>
+        document.getElementById('image-upload').addEventListener('change', function(event) {
+            const previewContainer = document.getElementById('image-preview-container');
+            previewContainer.innerHTML = '';
+            const files = event.target.files;
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const img = document.createElement('img');
+                        img.src = e.target.result;
+                        previewContainer.appendChild(img);
+                    };
+                    reader.readAsDataURL(file);
+                }
+            }
+        });
+
         function generatePDF() {
             const { jsPDF } = window.jspdf;
             const element = document.getElementById('report-container');
