@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>نموذج تقرير برنامج طلابي</title>
+    <title>نظام التقارير </title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
             direction: rtl;
             background-color: #f0f2f5;
-            font-size: 16px; /* تم تعديل حجم الخط */
+            font-size: 16px;
             margin: 0;
             padding: 0;
         }
@@ -19,14 +19,17 @@
             background-color: #ffffff;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding-left: 1cm;
+            padding-right: 1cm;
         }
-        /* تصميم الكليشة */
+        .header-klicheh-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
         .header-klicheh {
             width: 100%;
             height: auto;
             display: block;
-            margin-bottom: 20px;
-            padding: 0 1cm; /* إضافة هوامش للكليشة */
         }
         .header {
             text-align: center;
@@ -37,11 +40,15 @@
             font-size: 28px;
             margin: 0;
         }
+        .header h2 {
+            color: #555;
+            font-size: 20px;
+            margin-top: 5px;
+        }
         .form-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin: 0 1cm; /* إضافة هوامش جانبية للحقول */
             margin-bottom: 20px;
         }
         .form-grid.two-cols {
@@ -65,7 +72,7 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             box-sizing: border-box;
-            text-align: center; /* توسيط النص */
+            text-align: center;
         }
         textarea {
             height: 100px;
@@ -102,7 +109,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
-            margin: 20px 1cm; /* إضافة هوامش للصور */
+            margin-top: 20px;
             justify-content: center;
         }
         .image-preview-container img {
@@ -111,16 +118,32 @@
             object-fit: cover;
             border: 1px solid #ddd;
         }
+        .footer-info {
+            text-align: center;
+            margin-top: 40px;
+            color: #666;
+            font-size: 12px;
+        }
+        /* الكليشة الجديدة - تم وضعها كصورة خلفية بدلاً من وسم صورة */
+        .header-klicheh-container {
+            background-image: url('https://i.ibb.co/3sX849m/header.jpg');
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 100px; /* يمكن تعديل الارتفاع حسب الحاجة */
+            margin-bottom: 20px;
+        }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container" id="report-container">
-        <img class="header-klicheh" src="ليبيبييبيب.jpg" alt="كليشة التقرير">
+        <div class="header-klicheh-container"></div>
 
         <div class="header">
             <h1>برامج الأنشطة الطلابية</h1>
+            <h2>مجال المواطنة والحياة</h2>
         </div>
 
         <div class="form-grid">
@@ -163,6 +186,13 @@
         <div class="buttons-container">
             <button class="btn download" onclick="generatePDF()">تنزيل التقرير</button>
             <button class="btn clear" onclick="clearData()">حذف البيانات</button>
+        </div>
+        
+        <div class="footer-info">
+            <p>جميع حقوق العمل محفوظة</p>
+            <p>للمستشار: ماجد الطويرقي</p>
+            <p>تصميم وتطوير: ماجد الطويرقي</p>
+            <p>جميع الحقوق محفوظة ©</p>
         </div>
     </div>
 
