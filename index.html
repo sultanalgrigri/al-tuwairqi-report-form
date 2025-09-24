@@ -2,49 +2,76 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>نظام التقارير </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>نظام التقارير</title>
+    
     <style>
+        /* General Styles and Fonts */
+        :root {
+            --background-color: #f0f2f5;
+            --card-bg: #ffffff;
+            --text-color: #1a202c;
+            --primary-accent: #2b6cb0;
+            --font-family: 'Cairo', sans-serif;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
-            direction: rtl;
-            background-color: #f0f2f5;
-            font-size: 16px;
+            font-family: var(--font-family);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            line-height: 1.6;
+            font-size: 16px; /* حجم الخط المطلوب */
             margin: 0;
             padding: 0;
+            direction: rtl;
         }
+
+        /* Container and Layout */
         .container {
             max-width: 900px;
             margin: 30px auto;
             padding: 25px;
-            background-color: #ffffff;
+            background-color: var(--card-bg);
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            padding-left: 1cm;
-            padding-right: 1cm;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding-left: 1cm; /* هامش جانبي 1 سم */
+            padding-right: 1cm; /* هامش جانبي 1 سم */
         }
-        .header-klicheh-container {
-            text-align: center;
+        
+        /* Report Header - Al-Tuwairqi Klicheh */
+        .header-klicheh {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 2px solid #004d99;
             margin-bottom: 20px;
         }
-        .header-klicheh {
-            width: 100%;
-            height: auto;
-            display: block;
+        .header-klicheh img {
+            height: 60px;
+            width: auto;
         }
-        .header {
-            text-align: center;
-            margin-bottom: 25px;
+        .header-klicheh div {
+            text-align: right;
+            font-weight: bold;
         }
         .header h1 {
+            text-align: center;
             color: #004d99;
             font-size: 28px;
             margin: 0;
         }
         .header h2 {
+            text-align: center;
             color: #555;
             font-size: 20px;
             margin-top: 5px;
         }
+
+        /* Form Grid */
         .form-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -78,6 +105,23 @@
             height: 100px;
             resize: vertical;
         }
+        
+        /* Image Upload */
+        .image-preview-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .image-preview-container img {
+            width: 4.5cm;
+            height: 4.5cm;
+            object-fit: cover;
+            border: 1px solid #ddd;
+        }
+
+        /* Buttons */
         .buttons-container {
             display: flex;
             justify-content: center;
@@ -104,157 +148,123 @@
         .btn:hover {
             opacity: 0.9;
         }
-        /* تصميم الصور المرفقة */
-        .image-preview-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-            justify-content: center;
-        }
-        .image-preview-container img {
-            width: 4.5cm;
-            height: 4.5cm;
-            object-fit: cover;
-            border: 1px solid #ddd;
-        }
+
+        /* Footer Info */
         .footer-info {
             text-align: center;
             margin-top: 40px;
             color: #666;
             font-size: 12px;
         }
-        /* الكليشة الجديدة - تم وضعها كصورة خلفية بدلاً من وسم صورة */
-        .header-klicheh-container {
-            background-image: url('https://i.ibb.co/3sX849m/header.jpg');
-            background-size: cover;
-            background-position: center;
-            width: 100%;
-            height: 100px; /* يمكن تعديل الارتفاع حسب الحاجة */
-            margin-bottom: 20px;
-        }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="html2pdf.bundle.min.js"></script>
 </head>
 <body>
-    <div class="container" id="report-container">
-        <div class="header-klicheh-container"></div>
 
-        <div class="header">
-            <h1>برامج الأنشطة الطلابية</h1>
-            <h2>مجال المواطنة والحياة</h2>
+<div class="container" id="report-container">
+    <div class="header-klicheh">
+        <div>
+            <p>الإدارة العامة للتعليم بمحافظة جدة</p>
+            <p>مدرسة الأمير سلطان بن سلمان الابتدائية</p>
         </div>
-
-        <div class="form-grid">
-            <div class="form-field"><label>إدارة التعليم</label><input type="text"></div>
-            <div class="form-field"><label>اسم المدرسة</label><input type="text"></div>
-            <div class="form-field"><label>اسم المعلم</label><input type="text"></div>
-            <div class="form-field"><label>الفصل الدراسي</label><input type="text"></div>
-            <div class="form-field"><label>الصف</label><input type="text"></div>
-            <div class="form-field"><label>التخصص</label><input type="text"></div>
-            <div class="form-field"><label>الحصة</label><input type="text"></div>
-            <div class="form-field"><label>اليوم</label><input type="text"></div>
-            <div class="form-field"><label>التاريخ</label><input type="text"></div>
-        </div>
-
-        <div class="form-grid">
-            <div class="form-field"><label>اسم البرنامج</label><input type="text"></div>
-            <div class="form-field"><label>مكان التنفيذ</label><input type="text"></div>
-            <div class="form-field"><label>الحضور</label><input type="text"></div>
-            <div class="form-field"><label>الغياب</label><input type="text"></div>
-        </div>
-
-        <div class="form-grid single-col">
-            <div class="form-field"><label>أهداف البرنامج</label><textarea></textarea></div>
-            <div class="form-field"><label>الأثر الإيجابي للبرنامج</label><textarea></textarea></div>
-        </div>
-
-        <div class="form-grid two-cols">
-            <div class="form-field">
-                <label>الشواهد</label>
-                <input type="file" id="image-upload" accept="image/*" multiple>
-            </div>
-        </div>
-        <div class="image-preview-container" id="image-preview-container"></div>
-
-        <div class="form-grid">
-            <div class="form-field"><label>رائد النشاط</label><input type="text"></div>
-            <div class="form-field"><label>مدير المدرسة</label><input type="text"></div>
-        </div>
-
-        <div class="buttons-container">
-            <button class="btn download" onclick="generatePDF()">تنزيل التقرير</button>
-            <button class="btn clear" onclick="clearData()">حذف البيانات</button>
-        </div>
-        
-        <div class="footer-info">
-            <p>جميع حقوق العمل محفوظة</p>
-            <p>للمستشار: ماجد الطويرقي</p>
-            <p>تصميم وتطوير: ماجد الطويرقي</p>
-            <p>جميع الحقوق محفوظة ©</p>
-        </div>
+        <img src="https://i.ibb.co/6Pqj45H/logo.png" alt="شعار وزارة التعليم">
     </div>
 
-    <script>
-        document.getElementById('image-upload').addEventListener('change', function(event) {
-            const previewContainer = document.getElementById('image-preview-container');
-            previewContainer.innerHTML = '';
-            const files = event.target.files;
-            
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        const img = document.createElement('img');
-                        img.src = e.target.result;
-                        previewContainer.appendChild(img);
-                    };
-                    reader.readAsDataURL(file);
-                }
-            }
-        });
+    <div class="header">
+        <h1>برامج الأنشطة الطلابية</h1>
+        <h2>مجال المواطنة والحياة</h2>
+    </div>
 
-        function generatePDF() {
-            const { jsPDF } = window.jspdf;
-            const element = document.getElementById('report-container');
+    <div class="form-grid">
+        <div class="form-field"><label>إدارة التعليم</label><input type="text"></div>
+        <div class="form-field"><label>اسم المدرسة</label><input type="text"></div>
+        <div class="form-field"><label>اسم المعلم</label><input type="text"></div>
+        <div class="form-field"><label>الفصل الدراسي</label><input type="text"></div>
+        <div class="form-field"><label>الصف</label><input type="text"></div>
+        <div class="form-field"><label>التخصص</label><input type="text"></div>
+        <div class="form-field"><label>الحصة</label><input type="text"></div>
+        <div class="form-field"><label>اليوم</label><input type="text"></div>
+        <div class="form-field"><label>التاريخ</label><input type="text"></div>
+    </div>
 
-            const downloadButton = document.querySelector('.btn.download');
-            downloadButton.style.display = 'none';
+    <div class="form-grid">
+        <div class="form-field"><label>اسم البرنامج</label><input type="text"></div>
+        <div class="form-field"><label>مكان التنفيذ</label><input type="text"></div>
+        <div class="form-field"><label>الحضور</label><input type="text"></div>
+        <div class="form-field"><label>الغياب</label><input type="text"></div>
+    </div>
 
-            html2canvas(element, { scale: 2 }).then(canvas => {
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4', true);
-                const imgWidth = 210;
-                const pageHeight = 297;
-                const imgHeight = canvas.height * imgWidth / canvas.width;
-                let heightLeft = imgHeight;
-                let position = 0;
+    <div class="form-grid single-col">
+        <div class="form-field"><label>أهداف البرنامج</label><textarea></textarea></div>
+        <div class="form-field"><label>الأثر الإيجابي للبرنامج</label><textarea></textarea></div>
+    </div>
 
-                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                heightLeft -= pageHeight;
+    <div class="form-grid two-cols">
+        <div class="form-field">
+            <label>الشواهد</label>
+            <input type="file" id="image-upload" accept="image/*" multiple>
+        </div>
+    </div>
+    <div class="image-preview-container" id="image-preview-container"></div>
 
-                while (heightLeft >= 0) {
-                    position = heightLeft - imgHeight;
-                    pdf.addPage();
-                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                    heightLeft -= pageHeight;
-                }
-                pdf.save("تقرير-البرنامج.pdf");
+    <div class="form-grid">
+        <div class="form-field"><label>رائد النشاط</label><input type="text"></div>
+        <div class="form-field"><label>مدير المدرسة</label><input type="text"></div>
+    </div>
 
-                downloadButton.style.display = 'block';
-            });
-        }
+    <div class="buttons-container">
+        <button class="btn download" onclick="generatePDF()">تنزيل التقرير</button>
+        <button class="btn clear" onclick="clearData()">حذف البيانات</button>
+    </div>
+    
+    <div class="footer-info">
+        <p>جميع حقوق العمل محفوظة</p>
+        <p>للمستشار: ماجد الطويرقي</p>
+        <p>تصميم وتطوير: ماجد الطويرقي</p>
+        <p>جميع الحقوق محفوظة ©</p>
+    </div>
+</div>
+
+<script>
+    document.getElementById('image-upload').addEventListener('change', function(event) {
+        const previewContainer = document.getElementById('image-preview-container');
+        previewContainer.innerHTML = '';
+        const files = event.target.files;
         
-        function clearData() {
-            const inputs = document.querySelectorAll('input[type="text"], textarea');
-            inputs.forEach(input => {
-                input.value = '';
-            });
-            document.getElementById('image-upload').value = '';
-            document.getElementById('image-preview-container').innerHTML = '';
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    previewContainer.appendChild(img);
+                };
+                reader.readAsDataURL(file);
+            }
         }
-    </script>
+    });
+
+    function generatePDF() {
+        const element = document.getElementById('report-container');
+        html2pdf(element, {
+            margin: [0.5, 0, 0.5, 0], // هامش علوي وسفلي 0.5 سم
+            filename: 'تقرير-البرنامج.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        });
+    }
+
+    function clearData() {
+        const inputs = document.querySelectorAll('input[type="text"], textarea');
+        inputs.forEach(input => {
+            input.value = '';
+        });
+        document.getElementById('image-upload').value = '';
+        document.getElementById('image-preview-container').innerHTML = '';
+    }
+</script>
+
 </body>
 </html>
